@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -51,7 +52,10 @@ func Move(src string, target string) error {
 			return err
 		}
 	}
-	err = os.RemoveAll(src)
+	root := strings.FieldsFunc(strings.Replace(src, filepath.VolumeName(src), "", 1), func(r rune) bool {
+		return r == '/' || r == '\\'
+	})[0]
+	err = os.RemoveAll(root)
 	if err != nil {
 		return err
 	}
