@@ -80,10 +80,12 @@ func Copy(src string, target string) error {
 		if err != nil {
 			return err
 		}
+		defer r.Close()
 		w, err := os.Create(_file)
 		if err != nil {
 			return err
 		}
+		defer r.Close()
 		_, err = io.Copy(w, r)
 		if err != nil {
 			return err
